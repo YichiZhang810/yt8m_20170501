@@ -124,7 +124,7 @@ class RnnModel(models.BaseModel):
 
     print('-----------')
     # a=tf.convert_to_tensor(1)
-    a = tf.ones([1, 1])
+    a = tf.ones([1])
     print(a)
     print('-----------')
 
