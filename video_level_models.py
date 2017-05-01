@@ -129,13 +129,13 @@ class RnnModel(models.BaseModel):
 
     # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
     #                 1024, forget_bias=1.0)
-    
+
     model_input = tf.expand_dims(model_input,axis=1)
 
     loss = 0.0
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-                                       sequence_length=1,
+                                       sequence_length=1024,
                                        dtype=tf.float32)
 
     aggregated_model = getattr(video_level_models,
