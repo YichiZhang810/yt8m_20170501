@@ -135,7 +135,6 @@ class RnnModel(models.BaseModel):
     loss = 0.0
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-                                       sequence_length=1024,
                                        dtype=tf.float32)
 
     aggregated_model = getattr(video_level_models,
