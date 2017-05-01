@@ -120,15 +120,15 @@ class RnnModel(models.BaseModel):
       'batch_size' x 'num_classes'.
     """
 
-    # stacked_lstm = tf.contrib.rnn.MultiRNNCell(
-    #         [
-    #             tf.contrib.rnn.BasicLSTMCell(
-    #                 lstm_size, forget_bias=1.0)
-    #             for _ in range(number_of_layers)
-    #             ])
-
-    stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
+    stacked_lstm = tf.contrib.rnn.MultiRNNCell(
+            [
+                tf.contrib.rnn.BasicLSTMCell(
                     1024, forget_bias=1.0)
+                for _ in range(2)
+                ])
+
+    # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
+    #                 1024, forget_bias=1.0)
 
     loss = 0.0
 
