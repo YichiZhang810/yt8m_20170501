@@ -211,6 +211,12 @@ class LstmModel(models.BaseModel):
       model in the 'predictions' key. The dimensions of the tensor are
       'batch_size' x 'num_classes'.
     """
+    print('-----------')
+    print('num_frames')
+    print(type(num_frames))
+    print(num_frames)
+    print('-----------')
+
     lstm_size = FLAGS.lstm_cells
     number_of_layers = FLAGS.lstm_layers
 
