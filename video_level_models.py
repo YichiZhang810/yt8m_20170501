@@ -27,9 +27,6 @@ flags.DEFINE_integer(
     "moe_num_mixtures", 2,
     "The number of mixtures (excluding the dummy 'expert') used for MoeModel.")
 
-flags.DEFINE_integer("lstm_cells", 1024, "Number of LSTM cells.")
-flags.DEFINE_integer("lstm_layers", 2, "Number of LSTM layers.")
-
 class LogisticModel(models.BaseModel):
   """Logistic model with L2 regularization."""
 
@@ -122,8 +119,6 @@ class RnnModel(models.BaseModel):
       model in the 'predictions' key. The dimensions of the tensor are
       'batch_size' x 'num_classes'.
     """
-    lstm_size = FLAGS.lstm_cells
-    number_of_layers = FLAGS.lstm_layers
 
     # stacked_lstm = tf.contrib.rnn.MultiRNNCell(
     #         [
@@ -133,12 +128,12 @@ class RnnModel(models.BaseModel):
     #             ])
 
     stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
-                    lstm_size, forget_bias=1.0)
+                    1024, forget_bias=1.0)
 
     loss = 0.0
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-                                       sequence_length=num_frames,
+                                       sequence_length=1,
                                        dtype=tf.float32)
 
     aggregated_model = getattr(video_level_models,
