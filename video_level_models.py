@@ -129,6 +129,8 @@ class RnnModel(models.BaseModel):
 
     # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
     #                 1024, forget_bias=1.0)
+    
+    model_input = tf.expand_dims(model_input,axis=1)
 
     loss = 0.0
 
