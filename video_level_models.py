@@ -106,15 +106,13 @@ class MoeModel(models.BaseModel):
 
 class RnnModel(models.BaseModel):
 
-  def create_model(self, model_input, vocab_size, num_frames, **unused_params):
+  def create_model(self, model_input, vocab_size, **unused_params):
     """Creates a model which uses a stack of LSTMs to represent the video.
 
     Args:
       model_input: A 'batch_size' x 'max_frames' x 'num_features' matrix of
                    input features.
       vocab_size: The number of classes in the dataset.
-      num_frames: A vector of length 'batch' which indicates the number of
-           frames for each video (before padding).
 
     Returns:
       A dictionary with a tensor containing the probability predictions of the
@@ -125,7 +123,8 @@ class RnnModel(models.BaseModel):
     number_of_layers = 2
 
     print('-----------')
-    a=tf.convert_to_tensor(1)
+    # a=tf.convert_to_tensor(1)
+    a = tf.ones([1, 1])
     print(a)
     print('-----------')
 
@@ -141,7 +140,7 @@ class RnnModel(models.BaseModel):
     model_input = tf.expand_dims(model_input,axis=1)
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-                                       sequence_length=tf.convert_to_tensor(1),
+                                       sequence_length=a,
                                        dtype=tf.float32)
 
 
