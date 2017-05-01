@@ -124,6 +124,11 @@ class RnnModel(models.BaseModel):
     lstm_size = 1024
     number_of_layers = 2
 
+    print('-----------')
+    a=tf.convert_to_tensor(1)
+    print(a)
+    print('-----------')
+
     stacked_lstm = tf.contrib.rnn.MultiRNNCell(
             [
                 tf.contrib.rnn.BasicLSTMCell(
@@ -136,29 +141,9 @@ class RnnModel(models.BaseModel):
     model_input = tf.expand_dims(model_input,axis=1)
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-                                       sequence_length=1,
+                                       sequence_length=tf.convert_to_tensor(1),
                                        dtype=tf.float32)
-    # stacked_lstm = tf.contrib.rnn.MultiRNNCell(
-    #         [
-    #             tf.contrib.rnn.BasicLSTMCell(
-    #                 1024, forget_bias=1.0)
-    #             for _ in range(2)
-    #             ])
 
-    # # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
-    # #                 1024, forget_bias=1.0)
-
-    # model_input = tf.expand_dims(model_input,axis=1)
-
-    # loss = 0.0
-
-    # outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
-    #                                    dtype=tf.float32)
-    # print('----------')
-    # print('output')
-    # print(type(outputs))
-    # print(outputs)
-    # print('----------')
 
 
     return {"predictions": outputs}
