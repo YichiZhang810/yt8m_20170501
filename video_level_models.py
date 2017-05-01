@@ -136,11 +136,13 @@ class RnnModel(models.BaseModel):
 
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
                                        dtype=tf.float32)
+    print('----------')
+    print('output')
+    print(type(output))
 
-    aggregated_model = getattr(video_level_models,
-                               FLAGS.video_level_classifier_model)
+    print(output)
 
-    return aggregated_model().create_model(
-        model_input=state[-1].h,
-        vocab_size=vocab_size,
-        **unused_params)
+    print('----------')
+
+
+    return {"predictions": output}
