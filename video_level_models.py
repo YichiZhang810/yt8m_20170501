@@ -138,11 +138,11 @@ class RnnModel(models.BaseModel):
                                        dtype=tf.float32)
     print('----------')
     print('output')
-    print(type(output))
+    print(type(outputs))
 
-    print(output)
+    print(outputs)
 
     print('----------')
 
 
-    return {"predictions": output}
+    return {"predictions": outputs}
