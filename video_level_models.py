@@ -42,22 +42,11 @@ class LogisticModel(models.BaseModel):
       model in the 'predictions' key. The dimensions of the tensor are
       batch_size x num_classes."""
 
-    print('----------')
-    print('model_input')
-    print(type(model_input))
-    print(model_input)
-    print('----------')
 
     output = slim.fully_connected(
         model_input, vocab_size, activation_fn=tf.nn.sigmoid,
         weights_regularizer=slim.l2_regularizer(l2_penalty))
 
-    print('----------')
-    print('output')
-    print(type(output))
-    print(output)
-    print('----------')
-    return {"predictions": output}
 
 class MoeModel(models.BaseModel):
   """A softmax over a mixture of logistic models (with L2 regularization)."""
@@ -132,28 +121,44 @@ class RnnModel(models.BaseModel):
       model in the 'predictions' key. The dimensions of the tensor are
       'batch_size' x 'num_classes'.
     """
+    lstm_size = 1024
+    number_of_layers = 2
 
     stacked_lstm = tf.contrib.rnn.MultiRNNCell(
             [
                 tf.contrib.rnn.BasicLSTMCell(
-                    1024, forget_bias=1.0)
-                for _ in range(2)
+                    lstm_size, forget_bias=1.0)
+                for _ in range(number_of_layers)
                 ])
-
-    # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
-    #                 1024, forget_bias=1.0)
-
-    model_input = tf.expand_dims(model_input,axis=1)
 
     loss = 0.0
 
+    model_input = tf.expand_dims(model_input,axis=1)
+
     outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
+                                       sequence_length=1,
                                        dtype=tf.float32)
-    print('----------')
-    print('output')
-    print(type(outputs))
-    print(outputs)
-    print('----------')
+    # stacked_lstm = tf.contrib.rnn.MultiRNNCell(
+    #         [
+    #             tf.contrib.rnn.BasicLSTMCell(
+    #                 1024, forget_bias=1.0)
+    #             for _ in range(2)
+    #             ])
+
+    # # stacked_lstm = tf.contrib.rnn.BasicLSTMCell(
+    # #                 1024, forget_bias=1.0)
+
+    # model_input = tf.expand_dims(model_input,axis=1)
+
+    # loss = 0.0
+
+    # outputs, state = tf.nn.dynamic_rnn(stacked_lstm, model_input,
+    #                                    dtype=tf.float32)
+    # print('----------')
+    # print('output')
+    # print(type(outputs))
+    # print(outputs)
+    # print('----------')
 
 
     return {"predictions": outputs}
